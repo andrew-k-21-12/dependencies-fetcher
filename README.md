@@ -50,7 +50,7 @@ To use this dependencies fetcher:
 5. Open a `build.gradle` file of the module you want to use the fetcher in
    (e.g. `app/build.gradle`) and add required configurations into it:
    ```groovy
-   import com.andrew_k_21_12.dependenciesfetcher.*
+   import io.github.andrew_k_21_12.dependenciesfetcher.*
    
    plugins {
        // ...

@@ -1,4 +1,4 @@
-package com.andrew_k_21_12.dependenciesfetcher
+package io.github.andrew_k_21_12.dependenciesfetcher
 
 import java.io.*
 import java.net.MalformedURLException
