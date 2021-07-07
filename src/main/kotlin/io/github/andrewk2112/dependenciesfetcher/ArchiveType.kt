@@ -1,4 +1,4 @@
-package io.github.andrew_k_21_12.dependenciesfetcher
+package io.github.andrewk2112.dependenciesfetcher
 
 /**
  * All supported archive types.

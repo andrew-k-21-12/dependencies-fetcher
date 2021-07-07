@@ -1,0 +1,39 @@
+// This will let the project sync and build without the publication values set up,
+// which would otherwise be an issue for your contributors.
+ext['ossrhUsername']             = ''
+ext['ossrhPassword']             = ''
+ext['sonatypeStagingProfileId']  = ''
+ext['signing.keyId']             = ''
+ext['signing.password']          = ''
+ext['signing.secretKeyRingFile'] = ''
+
+// Trying to read a "local.properties" file first if it exists.
+File localPropertiesFile = project.rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    Properties localProperties = new Properties()
+    new FileInputStream(localPropertiesFile).withCloseable { is -> localProperties.load(is) }
+    localProperties.each { name, value -> ext[name.toString()] = value }
+}
+
+// Using system environment variables - helpful for CI.
+else {
+    ext['ossrhUsername']             = System.getenv('OSSRH_USERNAME')
+    ext['ossrhPassword']             = System.getenv('OSSRH_PASSWORD')
+    ext['sonatypeStagingProfileId']  = System.getenv('SONATYPE_STAGING_PROFILE_ID')
+    ext['signing.keyId']             = System.getenv('SIGNING_KEY_ID')
+    ext['signing.password']          = System.getenv('SIGNING_PASSWORD')
+    ext['signing.secretKeyRingFile'] = System.getenv('SIGNING_SECRET_KEY_RING_FILE')
+}
+
+// Setting up an access to the Sonatype repository.
+nexusPublishing {
+    repositories {
+        sonatype {
+            stagingProfileId = sonatypeStagingProfileId
+            username         = ossrhUsername
+            password         = ossrhPassword
+            nexusUrl.set(uri('https://s01.oss.sonatype.org/service/local/'))
+            snapshotRepositoryUrl.set(uri('https://s01.oss.sonatype.org/content/repositories/snapshots/'))
+        }
+    }
+}
