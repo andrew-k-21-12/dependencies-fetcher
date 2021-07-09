@@ -1,0 +1,31 @@
+buildscript {
+    ext {
+        kotlinVersion  = '1.5.10'
+        fetcherVersion = '1.0.2'
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        if (gradle.ext.useMavenCentral) {
+            classpath "io.github.andrew-k-21-12:dependencies-fetcher:$fetcherVersion"
+        }
+        else {
+            classpath files("../library/build/libs/dependencies-fetcher-${fetcherVersion}.jar")
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

@@ -1,0 +1,11 @@
+rootProject.name = 'Dependencies Fetcher Sandbox'
+include ':app'
+
+// Depending on boolean value with "useMavenCentral" key from local.properties,
+// setting a flag to use a local JAR or Maven Central distribution.
+def localProperties     = new Properties()
+def localPropertiesFile = new File(rootDir, 'local.properties')
+if (localPropertiesFile.isFile()) {
+    localProperties.load(localPropertiesFile.newDataInputStream())
+    gradle.ext.useMavenCentral = localProperties.getProperty('useMavenCentral')?.toBoolean()
+}

@@ -1,0 +1,87 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+import io.github.andrewk2112.dependenciesfetcher.*
+def dependenciesFetcher = new DependenciesFetcher(
+        // All fetched dependencies will be stored inside of this directory: add it to .gitignore.
+        new File(projectDir, 'dependencies'),
+        // To print the progress of fetching into the console: this line can be removed.
+        new SimplePrintingLogger()
+)
+def urlToOpenCV = 'https://sourceforge.net/projects/opencvlibrary/files/4.5.2/opencv-4.5.2-android-sdk.zip/download'
+// Fetching the dependency, getting its local path.
+def pathToOpenCV = dependenciesFetcher.fetchDependency(urlToOpenCV, ArchiveType.ZIP, 'OpenCV').absolutePath
+
+android {
+
+    compileSdkVersion 30
+    buildToolsVersion '30.0.3'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    defaultConfig {
+
+        applicationId 'io.github.andrewk2112.dependenciesfetcher.sandbox'
+
+        versionCode 1
+        versionName '1.0.0'
+
+        minSdkVersion 21
+        targetSdkVersion 30
+
+        externalNativeBuild {
+            cmake {
+                // Providing an argument to CMake to locate the fetched OpenCV.
+                arguments "-DOpenCV_DIR=$pathToOpenCV/OpenCV-android-sdk/sdk/native/jni"
+            }
+        }
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                                                 'proguard-rules.pro'
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt')
+            version '3.10.2'
+        }
+    }
+
+}
+
+// Cleaning up all fetched dependencies with the corresponding task.
+clean.doFirst {
+    dependenciesFetcher.cleanUpAllFetchedDependencies()
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation 'androidx.core:core-ktx:1.6.0'
+
+    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+}
