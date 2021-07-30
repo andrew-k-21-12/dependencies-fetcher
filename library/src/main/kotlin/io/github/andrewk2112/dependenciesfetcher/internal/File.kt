@@ -1,4 +1,4 @@
-package io.github.andrewk2112.dependenciesfetcher
+package io.github.andrewk2112.dependenciesfetcher.internal
 
 import java.io.File
 
@@ -7,5 +7,5 @@ import java.io.File
  *
  * @return True - if a recursive deletion has been successfully performed.
  * */
-internal fun File.deleteRecursivelyIfIsAccessibleDirectory() =
+internal fun File.deleteRecursivelyIfIsAccessibleDirectory(): Boolean =
     try { isDirectory } catch (_: SecurityException) { false } && deleteRecursively()

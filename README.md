@@ -7,7 +7,7 @@ to be included into the native code of Android projects:
 
 ```groovy
 // ...
-def pathToOpenCV = dependenciesFetcher.fetchDependency(urlToOpenCV, ArchiveType.ZIP, 'OpenCV').absolutePath
+def pathToOpenCV = dependenciesFetcher.fetch('OpenCV', urlToOpenCV, ZIP)
 
 android {
     // ...
@@ -27,7 +27,7 @@ android {
 ## Usage
 
 The library was tested only with **Android Studio 4.1.3**, **4.2.1**, **4.2.2**
-on macOS Catalina 10.15.6 and Big Sur 11.2.3.
+on macOS Catalina 10.15.6 and Big Sur 11.2.3, 11.4.
 
 To use this dependencies fetcher:
 
@@ -39,7 +39,7 @@ To use this dependencies fetcher:
        // ...
        dependencies {
            // ...
-           classpath 'io.github.andrew-k-21-12:dependencies-fetcher:1.0.2'
+           classpath 'io.github.andrew-k-21-12:dependencies-fetcher:1.0.3'
        } 
    }
    ```
@@ -47,11 +47,11 @@ To use this dependencies fetcher:
    [Maven Central](https://repo1.maven.org/maven2/io/github/andrew-k-21-12/dependencies-fetcher).
    Otherwise, a local distribution of the fetcher can be used. Replace
    ```groovy
-   classpath 'io.github.andrew-k-21-12:dependencies-fetcher:1.0.2'
+   classpath 'io.github.andrew-k-21-12:dependencies-fetcher:1.0.3'
    ```
    with
    ```groovy
-   classpath files('path/dependencies-fetcher-1.0.2.jar')
+   classpath files('path/dependencies-fetcher-1.0.3.jar')
    ```
    where `path` should be replaced with some actual path to the compiled fetcher library 
    (see the compilation guide in the `library` module's `README.md`).
@@ -61,18 +61,18 @@ To use this dependencies fetcher:
    ```groovy
    plugins {
        // ...
+       id 'io.github.andrew-k-21-12.dependencies-fetcher'
    }
    
-   import io.github.andrewk2112.dependenciesfetcher.*
-   def dependenciesFetcher = new DependenciesFetcher(
+   dependenciesFetcher.configure(
        // All fetched dependencies will be stored inside of this directory: add it to .gitignore.
-       new File(projectDir, 'dependencies'),
+       'dependencies',
        // To print the progress of fetching into the console: this line can be removed.
-       new SimplePrintingLogger()
+       SimplePrintingLogger.newInstance()
    )
    def urlToOpenCV = 'https://sourceforge.net/projects/opencvlibrary/files/4.5.2/opencv-4.5.2-android-sdk.zip/download'
    // Fetching the dependency, getting its local path.
-   def pathToOpenCV = dependenciesFetcher.fetchDependency(urlToOpenCV, ArchiveType.ZIP, 'OpenCV').absolutePath
+   def pathToOpenCV = dependenciesFetcher.fetch('OpenCV', urlToOpenCV, ZIP)
    
    android {
        // ...
@@ -133,10 +133,8 @@ However under a closer look they have some drawbacks
 
 ## To be done
 
-1. Correct and automatic local directories to place dependencies into.
+1. Better APIs to prepare dependencies dirs and avoid fetching on clean, implicit clean without its declaration.
 
-2. Automatic clean-up.
+2. Refactor all scripts into KTS.
 
-3. Refactor all scripts into KTS.
-
-4. CI?
+3. CI?

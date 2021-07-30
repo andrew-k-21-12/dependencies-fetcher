@@ -1,5 +1,7 @@
-package io.github.andrewk2112.dependenciesfetcher
+package io.github.andrewk2112.dependenciesfetcher.internal
 
+import io.github.andrewk2112.dependenciesfetcher.ArchiveType
+import io.github.andrewk2112.dependenciesfetcher.logging.Logger
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files

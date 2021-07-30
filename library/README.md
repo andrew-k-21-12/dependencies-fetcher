@@ -1,6 +1,6 @@
 ## Where am I?
 
-This is a library module itself of the dependency fetcher.
+This is a library module itself of the dependencies fetcher.
 
 
 ## How to build

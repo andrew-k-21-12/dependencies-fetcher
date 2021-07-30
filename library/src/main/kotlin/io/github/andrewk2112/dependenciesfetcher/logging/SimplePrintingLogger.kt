@@ -1,4 +1,4 @@
-package io.github.andrewk2112.dependenciesfetcher
+package io.github.andrewk2112.dependenciesfetcher.logging
 
 import java.io.File
 

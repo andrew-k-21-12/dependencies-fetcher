@@ -1,7 +1,7 @@
 buildscript {
     ext {
-        kotlinVersion  = '1.5.10'
-        fetcherVersion = '1.0.2'
+        kotlinVersion  = '1.5.21'
+        fetcherVersion = '1.0.3'
     }
     repositories {
         google()

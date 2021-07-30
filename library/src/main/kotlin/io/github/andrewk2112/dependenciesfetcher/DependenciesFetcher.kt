@@ -1,5 +1,9 @@
 package io.github.andrewk2112.dependenciesfetcher
 
+import io.github.andrewk2112.dependenciesfetcher.internal.FileDownloader
+import io.github.andrewk2112.dependenciesfetcher.internal.Unarchiver
+import io.github.andrewk2112.dependenciesfetcher.internal.deleteRecursivelyIfIsAccessibleDirectory
+import io.github.andrewk2112.dependenciesfetcher.logging.Logger
 import java.io.File
 import java.io.IOException
 

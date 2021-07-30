@@ -1,5 +1,6 @@
-package io.github.andrewk2112.dependenciesfetcher
+package io.github.andrewk2112.dependenciesfetcher.internal
 
+import io.github.andrewk2112.dependenciesfetcher.logging.Logger
 import java.io.*
 import java.net.MalformedURLException
 import java.net.URL
