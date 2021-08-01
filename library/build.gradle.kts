@@ -11,7 +11,7 @@ val artifactId = rootProject.name
 ext {
     set("artifactId", artifactId)
 }
-version = "1.0.3"
+version = "1.0.3.1"
 
 // Declarations to use plugin APIs in target buildscripts.
 gradlePlugin {
