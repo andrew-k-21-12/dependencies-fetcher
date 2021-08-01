@@ -136,5 +136,3 @@ However under a closer look they have some drawbacks
 1. Better APIs to prepare dependencies dirs and avoid fetching on clean, implicit clean without its declaration.
 
 2. Refactor all scripts into KTS.
-
-3. CI?
