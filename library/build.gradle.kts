@@ -1,40 +1,33 @@
+repositories {
+    mavenCentral() // to grab the Kotlin JVM plugin from
+}
+
 plugins {
-    kotlin("jvm") version "1.4.32"
-    id("java-gradle-plugin")                                    // to use Gradle plugin APIs
-    id("io.github.gradle-nexus.publish-plugin") version "1.1.0" // simplifies publishing
-    id("org.jetbrains.dokka") version "1.4.32"                  // docs generator
+    kotlin("jvm") version "1.5.31" // the plugin uses both Kotlin
+    id("groovy")                   // and Groovy sources
+    id("java-gradle-plugin")       // and is delivered via Gradle Plugins
 }
 
-// All identifiers of the library.
-group = "io.github.andrew-k-21-12"
-val artifactId = rootProject.name
-ext {
-    set("artifactId", artifactId)
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8 // all the sources are treated
+    targetCompatibility = JavaVersion.VERSION_1_8 // and compiled into byte code of this version
 }
-version = "1.0.3.1"
 
-// Declarations to use plugin APIs in target buildscripts.
+// To use Kotlin classes in the Groovy API, their compiled versions should be included into the corresponding classpath.
+tasks.named<GroovyCompile>("compileGroovy") {
+    val compileKotlin = tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileKotlin")
+    dependsOn(compileKotlin)
+    classpath += files(compileKotlin.get().destinationDirectory)
+}
+
+// All metadata and configurations for the output plugin.
+group   = "io.github.andrew-k-21-12"
+version = "2.0.0" // FIXME: it can be reasonable to extract this version into some common file
 gradlePlugin {
     plugins {
-        create(artifactId) {
-            id = "$group.$artifactId"
-            implementationClass = "io.github.andrewk2112.dependenciesfetcher.plugin.DependenciesFetcherPlugin"
+        create("dependenciesFetcher") {
+            id = "$group.${rootProject.name}"
+            implementationClass = "io.github.andrewk2112.dependenciesfetcher.DependenciesFetcherPlugin"
         }
     }
 }
-
-// Java compatibility declaration is strictly required to avoid Java version errors in integrations.
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-// Dependencies sources and dependencies itself.
-repositories {
-    mavenCentral()
-}
-dependencies {}
-
-// All publishing scripts.
-apply(from = "${rootDir}/scripts/publish-root.gradle")
-apply(from = "${rootProject.projectDir}/scripts/publish-module.gradle")

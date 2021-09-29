@@ -1,0 +1,3 @@
+moduleName=dependencies-fetcher-api
+moduleVersion=1.0.0
+extensionClasses=io.github.andrewk2112.dependenciesfetcher.RepositoryHandlerExtension

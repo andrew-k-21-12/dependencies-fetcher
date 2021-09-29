@@ -1,11 +1,26 @@
-rootProject.name = 'Dependencies Fetcher Sandbox'
-include ':app'
-
-// Depending on boolean value with "useMavenCentral" key from local.properties,
-// setting a flag to use a local JAR or Maven Central distribution.
-def localProperties     = new Properties()
-def localPropertiesFile = new File(rootDir, 'local.properties')
-if (localPropertiesFile.isFile()) {
-    localProperties.load(localPropertiesFile.newDataInputStream())
-    gradle.ext.useMavenCentral = localProperties.getProperty('useMavenCentral')?.toBoolean()
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+    }
+    plugins {
+        id 'com.android.application'      version '7.1.0-alpha08'
+        id 'org.jetbrains.kotlin.android' version '1.5.20'
+    }
+    // FIXME: For now it is the only way to include the compiled plugin, but it should support the remote repo as well.
+    buildscript {
+        repositories {
+            flatDir {
+                dirs '../library/build/libs'
+            }
+        }
+        dependencies {
+            classpath ':dependencies-fetcher-2.0.0' // FIXME: the version name can be loaded from somewhere
+        }
+    }
 }
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+}
+rootProject.name = 'dependencies-fetcher-sandbox'
+include ':groovy', ':kts'

@@ -133,6 +133,16 @@ However under a closer look they have some drawbacks
 
 ## To be done
 
-1. Better APIs to prepare dependencies dirs and avoid fetching on clean, implicit clean without its declaration.
+1. Publish the library to the Gradle Plugin portal.
 
-2. Refactor all scripts into KTS.
+2. Make optional inclusion mode: via the repo or the local artifact.
+
+3. Refactor the Android modules (including sources).
+
+4. Revisit this doc.
+
+5. Clean-up the automation with the corresponding docs.
+
+6. Perform basic QA.
+
+7. CICD via GitHub actions, tests, automatic artifact refreshing or buildSrc debugging (all that is very optional).

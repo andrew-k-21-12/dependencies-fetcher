@@ -24,3 +24,5 @@ Add the following property inside of this file:
 useMavenCentral = true
 ```
 and sync Gradle.
+
+**FIXME: Revisit this doc in the same way as for the library!**
