@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm") version "1.5.31" // the plugin uses both Kotlin
     id("groovy")                   // and Groovy sources
     id("java-gradle-plugin")       // and is delivered via Gradle Plugins
+    id("com.gradle.plugin-publish") version "0.16.0"
 }
 
 java {
@@ -26,8 +27,17 @@ version = "2.0.0" // FIXME: it can be reasonable to extract this version into so
 gradlePlugin {
     plugins {
         create("dependenciesFetcher") {
-            id = "$group.${rootProject.name}"
+            id                  = "$group.${rootProject.name}"
+            displayName         = "Dependencies Fetcher"
+            description         = "A simple dependencies fetcher helpful to grab non-JVM dependencies (e.g. OpenCV)"
             implementationClass = "io.github.andrewk2112.dependenciesfetcher.DependenciesFetcherPlugin"
         }
     }
+}
+
+// Gradle Plugin Portal publishing metadata.
+pluginBundle {
+    website = "https://github.com/andrew-k-21-12/dependencies-fetcher"
+    vcsUrl  = "https://github.com/andrew-k-21-12/dependencies-fetcher.git"
+    tags    = listOf("dependencies", "fetcher", "native", "android")
 }

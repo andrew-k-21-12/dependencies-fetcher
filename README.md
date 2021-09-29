@@ -133,16 +133,14 @@ However under a closer look they have some drawbacks
 
 ## To be done
 
-1. Publish the library to the Gradle Plugin portal.
+1. Make optional inclusion mode: via the repo or the local artifact.
 
-2. Make optional inclusion mode: via the repo or the local artifact.
+2. Refactor the Android modules (including sources).
 
-3. Refactor the Android modules (including sources).
+3. Revisit this doc.
 
-4. Revisit this doc.
+4. Clean-up the automation with the corresponding docs.
 
-5. Clean-up the automation with the corresponding docs.
+5. Perform basic QA.
 
-6. Perform basic QA.
-
-7. CICD via GitHub actions, tests, automatic artifact refreshing or buildSrc debugging (all that is very optional).
+6. CICD via GitHub actions, tests, automatic artifact refreshing or buildSrc debugging (all that is very optional).
