@@ -7,6 +7,7 @@ plugins {
     id("groovy")                   // and Groovy sources
     id("java-gradle-plugin")       // and is delivered via Gradle Plugins
     id("com.gradle.plugin-publish") version "0.16.0"
+    id("maven-publish") // to generate the published metadata correctly without the unnecessary prefix in the group
 }
 
 java {
