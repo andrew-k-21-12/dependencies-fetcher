@@ -133,14 +133,12 @@ However under a closer look they have some drawbacks
 
 ## To be done
 
-1. Make optional inclusion mode: via the repo or the local artifact.
+1. Refactor the Android modules (including sources).
 
-2. Refactor the Android modules (including sources).
+2. Revisit this doc.
 
-3. Revisit this doc.
+3. Clean-up the automation with the corresponding docs.
 
-4. Clean-up the automation with the corresponding docs.
+4. Perform basic QA.
 
-5. Perform basic QA.
-
-6. CICD via GitHub actions, tests, automatic artifact refreshing or buildSrc debugging (all that is very optional).
+5. CICD via GitHub actions, tests (all that is very optional).

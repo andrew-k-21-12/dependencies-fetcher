@@ -5,4 +5,4 @@ project(sandbox)
 add_library(native-lib SHARED native-lib.cpp)
 
 find_package(OpenCV 4 COMPONENTS imgproc ml)
- target_link_libraries(native-lib ${OpenCV_LIBS})
+target_link_libraries(native-lib ${OpenCV_LIBS})

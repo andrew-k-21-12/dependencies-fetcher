@@ -3,21 +3,49 @@ pluginManagement {
         gradlePluginPortal()
         google()
     }
+
+    // The version of the fetcher plugin to be used in this sandbox - this is actual only for precompiled includes.
+    def sandboxFetcherVersion = '2.0.0'
+
+    // Loading the local property which sets the mode how to include the fetcher plugin.
+    def localProperties     = new Properties()
+    def localPropertiesFile = new File(rootDir, 'local.properties')
+    def includeFetcherVia
+    if (localPropertiesFile.isFile()) {
+        localProperties.load(localPropertiesFile.newDataInputStream())
+        includeFetcherVia = localProperties.getProperty('includeFetcherVia')
+    }
+
     plugins {
         id 'com.android.application'      version '7.1.0-alpha08'
         id 'org.jetbrains.kotlin.android' version '1.5.20'
+
+        // Including the fetcher plugin via the Gradle Plugin Portal if needed.
+        if (includeFetcherVia == 'portal') {
+            id 'io.github.andrew-k-21-12.dependencies-fetcher' version sandboxFetcherVersion
+        }
+
     }
-    // FIXME: For now it is the only way to include the compiled plugin, but it should support the remote repo as well.
-    buildscript {
-        repositories {
-            flatDir {
-                dirs '../library/build/libs'
+
+    // Including the fetcher plugin via the local precompiled artifact if needed.
+    if (includeFetcherVia == 'artifact') {
+        buildscript {
+            repositories {
+                flatDir {
+                    dirs '../library/build/libs'
+                }
+            }
+            dependencies {
+                classpath ":dependencies-fetcher-$sandboxFetcherVersion"
             }
         }
-        dependencies {
-            classpath ':dependencies-fetcher-2.0.0' // FIXME: the version name can be loaded from somewhere
-        }
     }
+
+    // Including the fetcher plugin via the local sources by default.
+    else if (includeFetcherVia != 'portal') {
+        includeBuild '../library'
+    }
+
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
