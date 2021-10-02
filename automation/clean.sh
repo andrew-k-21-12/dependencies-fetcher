@@ -3,11 +3,17 @@
 cd ..
 rm .DS_Store
 
-cd library
+cd sandbox
 ./gradlew clean
 rm -rf .DS_Store .gradle .idea
+rm gradle/.DS_Store
+cd buildSrc
+rm -rf .DS_Store .gradle build
+cd ../groovy
+rm -rf .DS_Store .cxx
+cd ../kts
+rm -rf .DS_Store .cxx
 
-cd ../sandbox
-rm -rf .DS_Store .gradle .idea build
-cd app
-rm -rf .DS_Store .cxx build dependencies
+cd ../../library
+./gradlew clean
+rm -rf .DS_Store .gradle .idea

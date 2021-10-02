@@ -135,8 +135,6 @@ However under a closer look they have some drawbacks
 
 1. Revisit this doc and the sandbox doc.
 
-2. Clean-up the automation with the corresponding docs.
+2. Perform basic QA.
 
-3. Perform basic QA.
-
-4. CICD via GitHub actions, tests (all that is very optional).
+3. CICD via GitHub actions, tests (all that is very optional).
