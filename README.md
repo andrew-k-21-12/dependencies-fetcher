@@ -133,7 +133,7 @@ However under a closer look they have some drawbacks
 
 ## To be done
 
-1. Revisit this doc and the sandbox doc.
+1. Revisit this doc.
 
 2. Perform basic QA.
 
