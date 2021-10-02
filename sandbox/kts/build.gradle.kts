@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
 
-    // 1. Include the plugin.
+    // 2. Include the plugin.
     id("io.github.andrew-k-21-12.dependencies-fetcher")
 
 }
@@ -10,7 +10,7 @@ repositories {
     google()
     mavenCentral()
 
-    // 2. Declare the repo to grab a native dependency from.
+    // 3. Declare the repo to grab a native dependency from.
     gitHub()
 
 }
@@ -24,7 +24,7 @@ android {
         versionName   = SandboxConfigs.versionName
         testInstrumentationRunner = SandboxConfigs.testInstrumentationRunner
 
-        // 3. Provide the path to the unpacked dependency for CMake.
+        // 4. Provide the path to the unpacked dependency for CMake.
         externalNativeBuild {
             cmake {
                 arguments("-DOpenCV_DIR=${layout.buildDirectory.dir("unpacked").get()}" +
@@ -65,7 +65,7 @@ android {
 }
 dependencies {
 
-    // 4. Declare a dependency to be fetched and unpacked.
+    // 5. Declare a dependency to be fetched and unpacked.
     unpackOnly("opencv:opencv:4.5.3:android-sdk@zip")
 
     implementation(libs.bundles.coreCompat)

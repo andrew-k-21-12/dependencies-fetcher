@@ -1,6 +1,9 @@
 pluginManagement {
     repositories {
+
+        // 1. Make sure the Gradle Plugin Portal is included as repository for build script plugins...
         gradlePluginPortal()
+
         google()
     }
 
@@ -22,7 +25,10 @@ pluginManagement {
 
         // Including the fetcher plugin via the Gradle Plugin Portal if needed.
         if (includeFetcherVia == 'portal') {
+
+            // 1. ... and the fetcher plugin is declared.
             id 'io.github.andrew-k-21-12.dependencies-fetcher' version sandboxFetcherVersion
+
         }
 
     }

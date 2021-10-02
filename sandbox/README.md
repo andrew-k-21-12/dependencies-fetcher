@@ -11,7 +11,7 @@ The plugin can be integrated into this sandbox with 3 possible ways.
    This way is helpful for debugging and testing as all updates to the sources become immediately available.
 
 2. To include the plugin in the form of the compiled JAR artifact (to test its bundling), 
-   make sure the **library** module is built (see the corresponding docs inside of it) 
+   make sure the **library** project is built (see the corresponding docs inside of it) 
    and its compiled JAR is located in the default output directory (just don't remove or move it anywhere). 
    Create a `local.properties` file if it doesn't exist in this folder, 
    add the following property into it and sync Gradle:

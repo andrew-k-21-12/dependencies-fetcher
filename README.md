@@ -1,116 +1,101 @@
-## Where am I?
+This is a dependencies fetcher plugin for Gradle-based JVM projects to grab non-JVM dependencies.
 
-This is a simple dependencies fetcher to be used inside of Gradle build scripts.
+In other words: it allows you for example to fetch the [OpenCV](https://opencv.org) dependency
+to be included into the native code of your Android project in the same way as it's done for regular dependencies.
 
-The primary objective of this library is to seamlessly fetch the [OpenCV](https://opencv.org) dependency 
-to be included into the native code of Android projects:
 
-```groovy
-// ...
-def pathToOpenCV = dependenciesFetcher.fetch('OpenCV', urlToOpenCV, ZIP)
+## Quick start (Groovy-based build scripts)
 
-android {
-    // ...
-    defaultConfig {
+The plugin was tested only with **Android Studio 2021.1.1** and **Gradle 7.2**.
+
+0. Create a new Android project or use an existing one.
+
+1. Make sure the Gradle Plugin Portal is included as repository for build script plugins 
+   and the fetcher plugin is declared 
+   (the latest available version can be checked
+   [at the Gradle Plugin Portal](https://plugins.gradle.org/plugin/io.github.andrew-k-21-12.dependencies-fetcher)):
+    ```groovy
+    // settings.gradle
+    pluginManagement {
+        repositories {
+            gradlePluginPortal() // <- add this line
+            // ...
+        }
         // ...
-        externalNativeBuild {
-            cmake {
-                arguments "-DOpenCV_DIR=$pathToOpenCV/OpenCV-android-sdk/sdk/native/jni"
-            }
+        plugins {
+            // ...
+            id 'io.github.andrew-k-21-12.dependencies-fetcher' version '2.0.0' // <- add this line
         }
     }
-    // ...
-}
-```
+    ```
 
-
-## Usage
-
-The library was tested only with **Android Studio 4.1.3**, **4.2.1**, **4.2.2**
-on macOS Catalina 10.15.6 and Big Sur 11.2.3, 11.4.
-
-To use this dependencies fetcher:
-
-1. Create a new Android project or use an existing one.
-
-2. Inside the project-level `build.gradle` file add the following buildscript dependency:
-   ```groovy
-   buildscript {
-       // ...
-       dependencies {
-           // ...
-           classpath 'io.github.andrew-k-21-12:dependencies-fetcher:1.0.3'
-       } 
-   }
-   ```
-   The latest available version of the fetcher can be checked at
-   [Maven Central](https://repo1.maven.org/maven2/io/github/andrew-k-21-12/dependencies-fetcher).
-   Otherwise, a local distribution of the fetcher can be used. Replace
-   ```groovy
-   classpath 'io.github.andrew-k-21-12:dependencies-fetcher:1.0.3'
-   ```
-   with
-   ```groovy
-   classpath files('path/dependencies-fetcher-1.0.3.jar')
-   ```
-   where `path` should be replaced with some actual path to the compiled fetcher library 
-   (see the compilation guide in the `library` module's `README.md`).
-
-3. Open a `build.gradle` file of the module you want to use the fetcher in (e.g. `app/build.gradle`)
-   and add required configurations into it:
-   ```groovy
-   plugins {
-       // ...
-       id 'io.github.andrew-k-21-12.dependencies-fetcher'
-   }
+2. Include the plugin into the target project's module:
+    ```groovy
+    // For Android projects it's usually app/build.gradle
+    plugins {
+        // ...  
+        id 'io.github.andrew-k-21-12.dependencies-fetcher' // <- add this line
+    }
+    ```
    
-   dependenciesFetcher.configure(
-       // All fetched dependencies will be stored inside of this directory: add it to .gitignore.
-       'dependencies',
-       // To print the progress of fetching into the console: this line can be removed.
-       SimplePrintingLogger.newInstance()
-   )
-   def urlToOpenCV = 'https://sourceforge.net/projects/opencvlibrary/files/4.5.2/opencv-4.5.2-android-sdk.zip/download'
-   // Fetching the dependency, getting its local path.
-   def pathToOpenCV = dependenciesFetcher.fetch('OpenCV', urlToOpenCV, ZIP)
+3. Declare the repo to grab a native dependency from:
+    ```groovy
+    // For Android projects it's usually app/build.gradle
+    plugins {
+        // ...    
+    }
+    repositories {
+        // ...
+        new io.github.andrewk2112.dependenciesfetcher.GitHubRepositoryFactory().create(it) // <- add this line
+    }
+    ```
    
-   android {
-       // ...
-       defaultConfig {
-           // ...
-           externalNativeBuild {
-               cmake {
-                   // Providing an argument to CMake to locate the fetched OpenCV.
-                   arguments "-DOpenCV_DIR=$pathToOpenCV/OpenCV-android-sdk/sdk/native/jni"
-               }
-           }
-       }
-       // ...
-   }
+4. Provide the path to the unpacked dependency for CMake. 
+   The plugin unpacks fetched dependencies into the `unpacked` folder inside of the module's `build` directory:
+    ```groovy
+    // For Android projects it's usually app/build.gradle
+    android {
+        // ...
+        defaultConfig {
+            // ...
+            externalNativeBuild { // <- add this block
+                cmake {
+                    arguments "-DOpenCV_DIR=${layout.buildDirectory.dir('unpacked').get()}" +
+                              '/OpenCV-android-sdk/sdk/native/jni'
+                }
+            }                     // <-
+        }
+        // ...
+    }
+    ```
+   
+5. Declare a dependency to be fetched and unpacked.
+   For GitHub repositories it has the following format:
+   `<username>:<reponame>:<version>[:classifier]@<extension>`.
+   Supported extension types are `tar.gz` and `zip`.
+    ```groovy
+    // For Android projects it's usually app/build.gradle
+    dependencies {
+        unpackOnly 'opencv:opencv:4.5.3:android-sdk@zip' // <- add this line
+        // ...
+    }
+    ```
 
-   // Cleaning up all fetched dependencies with the corresponding task.
-   clean.doFirst {
-       dependenciesFetcher.cleanUpAllFetchedDependencies()
-   }
-   ```
+6. Find and link the unpacked dependency in the native CMake-based configuration:
+    ```cmake
+    # For Android projects it's usually app/src/main/cpp/CMakeLists.txt
+    # ...
+    find_package(OpenCV 4 REQUIRED imgproc ml)       # <- add these lines
+    target_link_libraries(native-lib ${OpenCV_LIBS}) # <- "native-lib" is a target to link the native dependency to
+    ```
 
-4. Open your project's `CMakeLists.txt`, make sure it can find and link the fetched package:
-   ```
-   // ...
-   find_package(OpenCV 4 QUIET COMPONENTS imgproc ml)
-   if(OpenCV_FOUND)
-       target_link_libraries(native-lib ${OpenCV_LIBS})
-   else()
-       message(WARNING "OpenCV is not found!")
-   endif()
-   ```
-   *It's preferred to use a stricter version of `find_package` with `REQUIRED`
-   but starting from Android Studio 4.2.2 it fails to perform project's clean in this case.*
+Sync Gradle and make sure the fetched library is available in the C++ code.
 
-5. Sync Gradle, make sure the fetched library is available in the C++ code.
+To get insights about other integration modes and check how to include the plugin for KTS-based build scripts,
+review the **sandbox** project.
 
 
-## Why this fetcher?
+## Why this fetcher plugin?
 
 It won't take lots of time to find other libraries doing something similar. 
 However under a closer look they have some drawbacks
@@ -129,12 +114,3 @@ However under a closer look they have some drawbacks
 3. Some utility to prepare and integrate native libraries from their headers and binaries into Gradle projects.
    It looks reasonable, but I didn't want to prepare each library release manually,
    plus some difficulties with CMake scripts could appear.
-
-
-## To be done
-
-1. Revisit this doc.
-
-2. Perform basic QA.
-
-3. CICD via GitHub actions, tests (all that is very optional).
