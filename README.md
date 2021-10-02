@@ -133,12 +133,10 @@ However under a closer look they have some drawbacks
 
 ## To be done
 
-1. Refactor the Android modules (including sources).
+1. Revisit this doc and the sandbox doc.
 
-2. Revisit this doc.
+2. Clean-up the automation with the corresponding docs.
 
-3. Clean-up the automation with the corresponding docs.
+3. Perform basic QA.
 
-4. Perform basic QA.
-
-5. CICD via GitHub actions, tests (all that is very optional).
+4. CICD via GitHub actions, tests (all that is very optional).

@@ -24,7 +24,7 @@ tasks.named<GroovyCompile>("compileGroovy") {
 
 // All metadata and configurations for the output plugin.
 group   = "io.github.andrew-k-21-12"
-version = "2.0.0" // FIXME: it can be reasonable to extract this version into some common file
+version = "2.0.0"
 gradlePlugin {
     plugins {
         create("dependenciesFetcher") {

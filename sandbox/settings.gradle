@@ -47,6 +47,7 @@ pluginManagement {
     }
 
 }
+enableFeaturePreview('VERSION_CATALOGS')
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
 }
