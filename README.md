@@ -41,6 +41,7 @@ The plugin was tested only with **Android Studio 2021.1.1** and **Gradle 7.2**.
 3. Declare the repo to grab a native dependency from:
     ```groovy
     // For Android projects it's usually app/build.gradle
+    // Make sure the repositoriesMode is set to RepositoriesMode.PREFER_PROJECT for dependencyResolutionManagement
     plugins {
         // ...    
     }
@@ -85,11 +86,12 @@ The plugin was tested only with **Android Studio 2021.1.1** and **Gradle 7.2**.
     ```cmake
     # For Android projects it's usually app/src/main/cpp/CMakeLists.txt
     # ...
-    find_package(OpenCV 4 REQUIRED imgproc ml)       # <- add these lines
+    find_package(OpenCV 4 COMPONENTS imgproc ml)     # <- add these lines
     target_link_libraries(native-lib ${OpenCV_LIBS}) # <- "native-lib" is a target to link the native dependency to
     ```
 
-Sync Gradle and make sure the fetched library is available in the C++ code.
+Sync Gradle, run the project (as dependencies are fetched only on a requested build) 
+and make sure the fetched library is available in the C++ code.
 
 To get insights about other integration modes and check how to include the plugin for KTS-based build scripts,
 review the **sandbox** project.
