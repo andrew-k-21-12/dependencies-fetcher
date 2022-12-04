@@ -6,7 +6,9 @@ to be included into the native code of your Android project in the same way as i
 
 ## Quick start (Groovy-based build scripts)
 
-The plugin was tested only with **Android Studio 2021.1.1** and **Gradle 7.2**.
+The plugin was tested only with the following combinations of versions:
+- **Android Studio 2021.1.1** and **Gradle 7.2**
+- **Android Studio 2021.3.1** and **Gradle 7.6**
 
 0. Create a new Android project or use an existing one.
 
@@ -24,7 +26,7 @@ The plugin was tested only with **Android Studio 2021.1.1** and **Gradle 7.2**.
         // ...
         plugins {
             // ...
-            id 'io.github.andrew-k-21-12.dependencies-fetcher' version '2.0.0' // <- add this line
+            id 'io.github.andrew-k-21-12.dependencies-fetcher' version '2.1.0' // <- add this line
         }
     }
     ```
@@ -42,6 +44,7 @@ The plugin was tested only with **Android Studio 2021.1.1** and **Gradle 7.2**.
     ```groovy
     // For Android projects it's usually app/build.gradle
     // Make sure the repositoriesMode is set to RepositoriesMode.PREFER_PROJECT for dependencyResolutionManagement
+    // and all the required repositories are declared here.
     plugins {
         // ...    
     }

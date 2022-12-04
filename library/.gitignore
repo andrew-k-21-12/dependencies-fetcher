@@ -1,5 +1,6 @@
 /local.properties
 /.gradle/
-/.idea/
+/.idea/*
+!/.idea/runConfigurations/
 /build/
 /out/

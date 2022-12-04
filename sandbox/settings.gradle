@@ -8,7 +8,7 @@ pluginManagement {
     }
 
     // The version of the fetcher plugin to be used in this sandbox - this is actual only for precompiled includes.
-    def sandboxFetcherVersion = '2.0.0'
+    def sandboxFetcherVersion = '2.1.0'
 
     // Loading the local property which sets the mode how to include the fetcher plugin.
     def localProperties     = new Properties()
@@ -20,8 +20,8 @@ pluginManagement {
     }
 
     plugins {
-        id 'com.android.application'      version '7.1.0-alpha08'
-        id 'org.jetbrains.kotlin.android' version '1.5.20'
+        id 'com.android.application'      version '7.3.1'
+        id 'org.jetbrains.kotlin.android' version '1.7.20'
 
         // Including the fetcher plugin via the Gradle Plugin Portal if needed.
         if (includeFetcherVia == 'portal') {

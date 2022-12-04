@@ -11,10 +11,12 @@ repositories {
     mavenCentral()
 
     // 3. Declare the repo to grab a native dependency from.
+    // Make sure all the rest required repositories are declared here as well (due to RepositoriesMode.PREFER_PROJECT).
     gitHub()
 
 }
 android {
+    namespace  = SandboxConfigs.applicationId
     compileSdk = SandboxConfigs.compileSdk
     defaultConfig {
         applicationId = SandboxConfigs.applicationId

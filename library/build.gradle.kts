@@ -3,10 +3,10 @@ repositories {
 }
 
 plugins {
-    kotlin("jvm") version "1.5.31" // the plugin uses both Kotlin
+    kotlin("jvm") version "1.7.20" // the plugin uses both Kotlin
     id("groovy")                   // and Groovy sources
     id("java-gradle-plugin")       // and is delivered via Gradle Plugins
-    id("com.gradle.plugin-publish") version "0.16.0"
+    id("com.gradle.plugin-publish") version "1.1.0"
     id("maven-publish") // to generate the published metadata correctly without the unnecessary prefix in the group
 }
 
@@ -24,7 +24,7 @@ tasks.named<GroovyCompile>("compileGroovy") {
 
 // All metadata and configurations for the output plugin.
 group   = "io.github.andrew-k-21-12"
-version = "2.0.0"
+version = "2.1.0"
 gradlePlugin {
     plugins {
         create("dependenciesFetcher") {

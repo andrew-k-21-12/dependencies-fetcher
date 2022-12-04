@@ -11,10 +11,12 @@ repositories {
     mavenCentral()
 
     // 3. Declare the repo to grab a native dependency from.
+    // Make sure all the rest required repositories are declared here as well (due to RepositoriesMode.PREFER_PROJECT).
     new io.github.andrewk2112.dependenciesfetcher.GitHubRepositoryFactory().create(it) // FIXME: one day it's going to support the clear API - https://github.com/gradle/gradle/issues/2973
 
 }
 android {
+    namespace SandboxConfigs.applicationId
     compileSdk SandboxConfigs.compileSdk
     defaultConfig {
         applicationId SandboxConfigs.applicationId
